@@ -26,13 +26,14 @@ A simple web tool to generate Discord timestamps for messages. Choose a date, ti
 4. **Reset:**
    - Click the "Reset to Current Time" button to automatically set the current time and generate the corresponding timestamp.
 
+## Live Demo
+
+You can try the Discord Timestamp Generator live at:  
+[discordts.willy.us.kg](https://discordts.willy.us.kg)
+
 ## Support
 
 For support or inquiries, you can reach out via email or Discord:
 
 - **Email:** [William2sober@gmail.com](mailto:William2sober@gmail.com)
 - **Discord:** [Join our server](https://discord.gg/48BDu759Yc)
-
-## License
-
-This project is made by **William's Development**. Feel free to use and modify it as per your needs.
