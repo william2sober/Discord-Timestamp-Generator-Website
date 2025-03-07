@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Generate Discord timestamps for your messages with ease. Choose a date, time, and format to get the perfect timestamp code.">
+    <meta property="og:title" content="Discord Timestamp Generator">
+    <meta property="og:description" content="Generate timestamps for Discord messages in different formats.">
+    <meta property="og:image" content="https://yourwebsite.com/preview.png">
+    <meta property="og:url" content="discordts.willy.us.kg">
+    <meta name="theme-color" content="#add8e6">
+    <title>Discord Timestamp Generator</title>
+    <link rel="icon" type="image/x-icon" href="favicon.png">
+    <style>
+        /* General Styles */
+        html, body {
+            margin: 0;
+            padding: 0;
+            background: #add8e6;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background: #fff;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-weight: bold;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+            border: none;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        /* Custom Dropdown */
+        .custom-select {
+            width: 100%;
+            position: relative;
+        }
+
+        select {
+            appearance: none;
+            width: 100%;
+            background: white;
+            cursor: pointer;
+        }
+
+        .custom-select::after {
+            content: "▼";
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #333;
+        }
+
+        #preview {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        footer {
+            margin-top: 30px;
+            padding: 15px;
+            background: #add8e6;
+            color: #333;
+            text-align: center;
+            width: 100%;
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                width: 95%;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Discord Timestamp Generator</h1>
+        <p>Generate Discord timestamps for messages. Pick a date and time, then copy the formatted code.</p>
+
+        <div class="form-group">
+            <label for="d">Date</label>
+            <input type="date" id="d">
+        </div>
+
+        <div class="form-group">
+            <label for="hm">Time</label>
+            <input type="time" id="hm">
+        </div>
+
+        <div class="form-group">
+            <label for="t">Type</label>
+            <div class="custom-select">
+                <select id="t">
+                    <option value="t">Short Time</option>
+                    <option value="T">Long Time</option>
+                    <option value="d">Short Date</option>
+                    <option value="D">Long Date</option>
+                    <option value="f">Long Date with Short Time</option>
+                    <option value="F">Long Date with Day of Week & Short Time</option>
+                    <option value="R" selected>Relative</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Preview</label>
+            <span id="preview"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="code">Generated Code</label>
+            <input type="text" readonly id="code" title="Press Ctrl/Cmd+C to copy">
+        </div>
+
+        <button id="copy">Copy to Clipboard</button>
+        <button id="current">Reset to Current Time</button>
+    </div>
+
+    <footer>
+        <p>Made by William’s Development &copy; <span id="year"></span></p>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+
+    <script>
+        const dateInput = document.getElementById('d');
+        const timeInput = document.getElementById('hm');
+        const typeInput = document.getElementById('t');
+        const output = document.getElementById('code');
+        const copy = document.getElementById('copy');
+        const current = document.getElementById('current');
+        const preview = document.getElementById('preview');
+
+        dateInput.onchange = updateOutput;
+        timeInput.onchange = updateOutput;
+        typeInput.onchange = updateOutput;
+
+        copy.onclick = async () => {
+            updateOutput();
+            try {
+                await navigator.clipboard.writeText(output.value);
+                alert("Copied to clipboard!");
+            } catch (e) {
+                alert("Failed to copy: " + e);
+            }
+        };
+
+        current.onclick = onload;
+
+        const onload = () => {
+            const now = new Date();
+            dateInput.value = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
+            timeInput.value = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            updateOutput();
+        };
+
+        window.onload = onload;
+
+        const typeFormats = {
+            't': { timeStyle: 'short' },
+            'T': { timeStyle: 'medium' },
+            'd': { dateStyle: 'short' },
+            'D': { dateStyle: 'long' },
+            'f': { dateStyle: 'long', timeStyle: 'short' },
+            'F': { dateStyle: 'full', timeStyle: 'short' },
+            'R': { style: 'long', numeric: 'auto' },
+        };
+
+        function updateOutput() {
+            const selectedDate = new Date(`${dateInput.value} ${timeInput.value}`);
+            const ts = selectedDate.getTime().toString();
+            output.value = `<t:${ts.substr(0, ts.length - 3)}:${typeInput.value}>`;
+
+            if (typeInput.value === 'R') {
+                const formatter = new Intl.RelativeTimeFormat(navigator.language || 'en', typeFormats[typeInput.value] || {});
+                preview.textContent = formatter.format(-Math.round((new Date().getTime() - selectedDate.getTime()) / 1000), "seconds");
+            } else {
+                const formatter = new Intl.DateTimeFormat(navigator.language || 'en', typeFormats[typeInput.value] || {});
+                preview.textContent = formatter.format(selectedDate);
+            }
+        }
+    </script>
+
+</body>
+</html>
