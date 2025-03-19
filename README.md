@@ -29,11 +29,11 @@ A simple web tool to generate Discord timestamps for messages. Choose a date, ti
 ## Live Demo
 
 You can try the Discord Timestamp Generator live at:  
-[discordts.willy.us.kg](https://discordts.willy.us.kg)
+[discord-timestamp-generator-website.vercel.app](https://discord-timestamp-generator-website.vercel.app)
 
 ## Support
 
 For support or inquiries, you can reach out via email or Discord:
 
 - **Email:** [William2sober@gmail.com](mailto:William2sober@gmail.com)
-- **Discord:** [Join our server](https://discord.gg/48BDu759Yc)
+- **Discord:** [Join our server](https://discord.gg/8K2neBXVfg)
